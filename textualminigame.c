@@ -1,19 +1,19 @@
 #define _CRT_SECURE_NO_WARNINGS
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #include <ctype.h>
+#include <stdio.h>
 
 #define strcasecmp _stricmp
 
 /*
-BUT DU JEU : L'objectif du jeu est de trouver un mot secret avec un nombre de tentative limité, fournir le score et le niveau du joueur.
-L'utilisateur aura ensuite une chance de trouver un trésor en devinant la position (aléatoire) du trésor entre 1 et 10.
+BUT DU JEU : L'objectif du jeu est de trouver un mot secret avec un nombre de tentative limitÃ©, fournir le score et le niveau du joueur.
+L'utilisateur aura ensuite une chance de trouver un trÃ©sor en devinant la position (alÃ©atoire) du trÃ©sor entre 1 et 10.
 */
 
 
-//fonction pour tester si l'age saisi est un chiffre/nombre ou une chaine de caractère, la fonction utilisé est la fonction "strtol"
+//fonction pour tester si l'age saisi est un chiffre/nombre ou une chaine de caractÃ¨re, la fonction utilisÃ© est la fonction "strtol"
 int isInteger(const char* chaineCaractere) {
     if (chaineCaractere == NULL || *chaineCaractere == '\0' || isspace(*chaineCaractere)) {
         return 0;
@@ -25,11 +25,11 @@ int isInteger(const char* chaineCaractere) {
 }
 int main() {
 
-    //Déclaration des variables
+    //DÃ©claration des variables
 
-    char motSecret[20] = "secret"; // initialisation du mot à deviner
+    char motSecret[5][10] = { "Secret", "Soleil", "Terre", "Mars", "Paris" }; // initialisation des mots secrets dans une liste
 
-    char motJoueur[20];
+    char motJoueur[10];
 
     char indice[100] = "Si vous lavez, vous voulez le partager. Si vous le partagez, vous ne l'avez plus !";
 
@@ -51,16 +51,16 @@ int main() {
 
     int i;
 
-    //Parcours des 26 lettres pour trouver les caractères composant le mot
+    //Parcours des 26 lettres pour trouver les caractÃ¨res composant le mot
 
     char lettresTrouvees[26];
     for (i = 0; i < 26; i++) {
         lettresTrouvees[i] = ' ';
     }
 
-    srand(time(NULL)); // Initialisation pour les nombres aléatoires avec la fonction srand
+    srand(time(NULL)); // Initialisation pour les nombres alÃ©atoires avec la fonction srand
     int tresorTrouve = 0;
-    int positionTresor = rand() % 10 + 1;   // Position aléatoire du trésor entre 1 et 10
+    int positionTresor = rand() % 10 + 1;   // Position alÃ©atoire du trÃ©sor entre 1 et 10
 
 
     // Debut de l'execution du Jeu
@@ -85,15 +85,21 @@ int main() {
         break;
     }
 
-    int age = atoi(ageJoueur); //Transforme la chaine de caractére en une valeur numérique
+    int age = atoi(ageJoueur); //Transforme la chaine de caractÃ©re en une valeur numÃ©rique
 
     while (1) {
         printf("Devinez le mot : ");
         scanf("%s", motJoueur);
 
-        if (strcasecmp(motJoueur, motSecret) == 0) {                     //fonction "strcasecmp" permet de comparer 2 chaines en ignorant la casse. 
-
-            printf("FÉLICITATIONS, vous avez trouve le mot !\n");
+        int motTrouve = 0;
+        for (i = 0; i < 5; i++) {
+            if (strcasecmp(motJoueur, motSecret[i]) == 0) {                  //fonction "strcasecmp" permet de comparer 2 chaines en ignorant la casse. 
+                motTrouve = 1;
+                break;
+            }
+        }
+        if (motTrouve) {
+            printf("FÃ‰LICITATIONS, vous avez trouve le mot !\n");
             printf("Relancez le JEU pour jouer a nouveau !\n");
 
             scoreJoueur += 10;
@@ -135,7 +141,7 @@ int main() {
 
         if (positionDevinee == positionTresor) {
 
-            printf("FELICITATIONS, vous avez trouve le trésor !\n");
+            printf("FELICITATIONS, vous avez trouve le trÃ©sor !\n");
 
             scoreJoueur += 20;
 
